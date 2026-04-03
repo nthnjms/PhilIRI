@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f4c75">
+<meta name="description" content="Digital Phil-IRI: School-Based Reading Assessment System">
+<link rel="manifest" href="manifest.json">
+<title>Digital Phil-IRI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f4c75;
+  --navy-dark: #0a3352;
+  --navy-light: #1b6ca8;
+  --gold: #e8a020;
+  --gold-light: #f5c158;
+  --gold-pale: #fdf3dc;
+  --teal: #1a8c7d;
+  --teal-light: #23b5a3;
+  --teal-pale: #e0f5f3;
+  --red: #c0392b;
+  --red-light: #e74c3c;
+  --red-pale: #fdecea;
+  --green: #1e8449;
+  --green-light: #27ae60;
+  --green-pale: #eafaf1;
+  --orange: #d35400;
+  --orange-pale: #fef0e6;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface2: #f0f3f7;
+  --border: #dde3ed;
+  --text: #1a2332;
+  --text2: #4a5568;
+  --text3: #8395a7;
+  --shadow: 0 2px 12px rgba(15,76,117,0.10);
+  --shadow-lg: 0 8px 32px rgba(15,76,117,0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── SCREENS ─── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ─── LOGIN SCREEN ─── */
+#screen-login {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+#screen-login::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  border: 2px solid rgba(232,160,32,0.15);
+}
+#screen-login::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.07);
+}
+
+.login-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.login-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px; height: 64px;
+  background: var(--navy);
+  border-radius: 16px;
+  margin-bottom: 0.75rem;
+}
+.login-logo-badge svg { width: 36px; height: 36px; fill: #fff; }
+.login-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.login-sub { font-size: 0.8rem; color: var(--text3); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.login-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  margin-bottom: 1.5rem;
+}
+.login-tab {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.login-tab.active {
+  background: var(--surface);
+  color: var(--navy);
+  box-shadow: 0 1px 4px rgba(15,76,117,0.15);
+}
+
+.form-group { margin-bottom: 1rem; }
+.form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text2); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.form-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.form-input:focus { border-color: var(--navy-light); }
+.form-select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  outline: none;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+}
+.btn-primary { background: var(--navy); color: #fff; }
+.btn-primary:hover { background: var(--navy-dark); }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: #d4911c; }
+.btn-teal { background: var(--teal); color: #fff; }
+.btn-teal:hover { background: #166d61; }
+.btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+.btn-outline:hover { background: var(--navy); color: #fff; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #a93226; }
+.btn-sm { padding: 0.4rem 0.85rem; font-size: 0.8rem; }
+.btn-lg { padding: 0.85rem 1.75rem; font-size: 1rem; }
+.btn-full { width: 100%; }
+.btn-icon { width: 34px; height: 34px; padding: 0; border-radius: 8px; }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.alert { padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.875rem; margin-bottom: 1rem; display: none; }
+.alert.show { display: block; }
+.alert-error { background: var(--red-pale); color: var(--red); border-left: 3px solid var(--red); }
+.alert-success { background: var(--green-pale); color: var(--green); border-left: 3px solid var(--green); }
+.alert-info { background: #e8f4ff; color: var(--navy); border-left: 3px solid var(--navy); }
+
+/* ─── APP LAYOUT ─── */
+#screen-app {
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--navy-dark);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 100;
+  transition: transform 0.3s;
+}
+
+.sidebar-logo {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.3;
+}
+.sidebar-logo-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.sidebar-nav { flex: 1; padding: 0.75rem 0; overflow-y: auto; }
+.nav-section-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.75rem 1rem 0.4rem;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.nav-item.active { background: rgba(255,255,255,0.1); color: #fff; border-left-color: var(--gold); font-weight: 500; }
+.nav-item svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; }
+.nav-item.active svg { opacity: 1; }
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.07);
+}
+.user-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--navy-dark);
+  flex-shrink: 0;
+}
+.user-info { flex: 1; overflow: hidden; }
+.user-name { font-size: 0.8rem; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-role { font-size: 0.68rem; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.05em; }
+.btn-logout { background: transparent; border: none; color: rgba(255,255,255,0.5); cursor: pointer; padding: 4px; border-radius: 4px; transition: color 0.15s; }
+.btn-logout:hover { color: #fff; }
+.btn-logout svg { width: 14px; height: 14px; }
+
+.main-content {
+  margin-left: 240px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topbar-title { font-size: 1rem; font-weight: 600; color: var(--navy); }
+.topbar-actions { display: flex; align-items: center; gap: 0.5rem; }
+
+.content-area { flex: 1; padding: 1.5rem; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── CARDS & PANELS ─── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.card-title { font-size: 0.95rem; font-weight: 600; color: var(--navy); }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.stat-card.navy::before { background: var(--navy); }
+.stat-card.gold::before { background: var(--gold); }
+.stat-card.teal::before { background: var(--teal); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.red::before { background: var(--red); }
+.stat-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); margin-bottom: 0.5rem; }
+.stat-value { font-size: 1.75rem; font-weight: 600; color: var(--text); line-height: 1; }
+.stat-sub { font-size: 0.78rem; color: var(--text3); margin-top: 0.3rem; }
+.stat-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; }
+.badge-green { background: var(--green-pale); color: var(--green); }
+.badge-gold { background: var(--gold-pale); color: #9a6c00; }
+.badge-red { background: var(--red-pale); color: var(--red); }
+.badge-navy { background: #e8f0f8; color: var(--navy); }
+.badge-teal { background: var(--teal-pale); color: var(--teal); }
+.badge-orange { background: var(--orange-pale); color: var(--orange); }
+
+/* ─── TABLES ─── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead th { padding: 0.6rem 0.9rem; text-align: left; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); background: var(--surface2); border-bottom: 1px solid var(--border); }
+tbody td { padding: 0.75rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--text); }
+tbody tr:hover { background: var(--surface2); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* ─── MODALS ─── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10, 30, 60, 0.55);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modal-in 0.2s ease;
+}
+@keyframes modal-in { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+.modal-title { font-size: 1rem; font-weight: 600; color: var(--navy); }
+.modal-body { padding: 1.5rem; }
+.modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; justify-content: flex-end; }
+.btn-close { background: transparent; border: none; cursor: pointer; color: var(--text3); padding: 4px; border-radius: 4px; line-height: 1; font-size: 1.2rem; }
+.btn-close:hover { color: var(--text); }
+
+/* ─── READING LEVELS ─── */
+.level-independent { color: var(--green); font-weight: 600; }
+.level-instructional { color: var(--gold); font-weight: 600; }
+.level-frustration { color: var(--red); font-weight: 600; }
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar { background: var(--border); border-radius: 10px; height: 8px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 10px; transition: width 0.4s; }
+.progress-navy { background: var(--navy); }
+.progress-green { background: var(--green); }
+.progress-gold { background: var(--gold); }
+.progress-red { background: var(--red); }
+
+/* ─── ASSESSMENT COMPONENTS ─── */
+.word-list { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 0; }
+.word-chip {
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Mono', monospace;
+  user-select: none;
+}
+.word-chip:hover { border-color: var(--navy-light); background: #e8f0f8; }
+.word-chip.correct { background: var(--green-pale); border-color: var(--green); color: var(--green); }
+.word-chip.wrong { background: var(--red-pale); border-color: var(--red); color: var(--red); text-decoration: line-through; }
+.word-chip.skipped { background: var(--gold-pale); border-color: var(--gold); color: #9a6c00; }
+
+.passage-box {
+  background: var(--gold-pale);
+  border: 1px solid #f0d896;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.85;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  cursor: default;
+  user-select: none;
+}
+.passage-box .highlight { background: #ffe082; border-radius: 3px; padding: 0 2px; }
+.passage-box span.missed { background: var(--red-pale); color: var(--red); border-radius: 3px; padding: 0 2px; text-decoration: underline; }
+
+.q-block { margin-bottom: 1.25rem; padding: 1rem; background: var(--surface2); border-radius: var(--radius-sm); }
+.q-text { font-weight: 500; margin-bottom: 0.75rem; font-size: 0.9rem; }
+.q-options { display: flex; flex-direction: column; gap: 0.4rem; }
+.q-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.15s;
+}
+.q-option:hover { border-color: var(--navy-light); background: #e8f0f8; }
+.q-option.selected { border-color: var(--navy); background: #e8f0f8; color: var(--navy); }
+.q-option.correct { border-color: var(--green); background: var(--green-pale); color: var(--green); }
+.q-option.wrong { border-color: var(--red); background: var(--red-pale); color: var(--red); }
+
+/* ─── RECORDING ─── */
+.record-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--red);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.2s;
+  box-shadow: 0 0 0 0 rgba(192,57,43,0);
+}
+.record-btn.recording {
+  background: var(--red);
+  animation: pulse-record 1.4s infinite;
+}
+@keyframes pulse-record {
+  0% { box-shadow: 0 0 0 0 rgba(192,57,43,0.5); }
+  70% { box-shadow: 0 0 0 14px rgba(192,57,43,0); }
+  100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); }
+}
+.record-timer { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--red); font-weight: 500; }
+
+/* ─── TABS ─── */
+.tab-list { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 1.5rem; overflow-x: auto; }
+.tab-btn {
+  padding: 0.65rem 1.1rem;
+  border: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.tab-btn:hover { color: var(--navy); }
+.tab-btn.active { color: var(--navy); border-bottom-color: var(--navy); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── CHART BARS ─── */
+.bar-chart { display: flex; flex-direction: column; gap: 0.75rem; }
+.bar-row { display: grid; grid-template-columns: 120px 1fr 50px; align-items: center; gap: 0.75rem; font-size: 0.8rem; }
+.bar-label { color: var(--text2); text-align: right; font-size: 0.8rem; }
+.bar-track { background: var(--surface2); border-radius: 4px; height: 10px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s; }
+.bar-val { color: var(--text); font-weight: 500; font-family: 'DM Mono', monospace; font-size: 0.8rem; }
+
+/* ─── STUDENT ASSESSMENT ─── */
+#screen-student {
+  background: var(--bg);
+  flex-direction: column;
+}
+.student-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.student-progress-bar { height: 4px; background: rgba(255,255,255,0.2); }
+.student-progress-fill { height: 100%; background: var(--gold); transition: width 0.4s; }
+.student-content { flex: 1; padding: 1.5rem; max-width: 720px; margin: 0 auto; width: 100%; }
+.phase-indicator {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.phase-dot {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1.5px solid var(--border);
+  color: var(--text3);
+}
+.phase-dot.active { border-color: var(--navy); color: var(--navy); background: #e8f0f8; }
+.phase-dot.done { border-color: var(--green); color: var(--green); background: var(--green-pale); }
+.phase-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+/* ─── FORMS ─── */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+.form-textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+}
+.form-textarea:focus { border-color: var(--navy-light); }
+.form-hint { font-size: 0.75rem; color: var(--text3); margin-top: 0.25rem; }
+
+/* ─── LOCK ICON ─── */
+.lock-icon { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: var(--gold); }
+.lock-icon svg { width: 12px; height: 12px; fill: var(--gold); }
+
+/* ─── GRID LAYOUTS ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+/* ─── MISC ─── */
+.text-muted { color: var(--text3); font-size: 0.85rem; }
+.text-sm { font-size: 0.85rem; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+.flex { display: flex; align-items: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.gap-sm { gap: 0.5rem; }
+.gap-md { gap: 0.75rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+
+.page-header { margin-bottom: 1.5rem; }
+.page-header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 0.25rem; }
+.page-header p { color: var(--text2); font-size: 0.875rem; }
+
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--text3); }
+.empty-state svg { width: 48px; height: 48px; opacity: 0.3; margin-bottom: 1rem; }
+.empty-state h3 { font-size: 1rem; color: var(--text2); margin-bottom: 0.5rem; }
+
+.chip { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.72rem; font-weight: 500; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--surface2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  #hamburger { display: flex !important; }
+}
+#hamburger { display: none; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--border); background: transparent; cursor: pointer; }
+#hamburger svg { width: 16px; height: 16px; }
+
+.overlay-mobile { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; }
+.overlay-mobile.active { display: block; }
+
+/* Notification Toast */
+.toast {
+  position: fixed;
+  bottom: 1.5rem; right: 1.5rem;
+  background: var(--text);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s;
+  max-width: 320px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- ─── LOGIN SCREEN ─── -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+      </div>
+      <div class="login-title">Digital Phil-IRI</div>
+      <div class="login-sub">School-Based Reading Assessment</div>
+    </div>
+
+    <div class="login-tabs">
+      <button class="login-tab active" onclick="switchLoginTab('teacher')">Teacher / Admin</button>
+      <button class="login-tab" onclick="switchLoginTab('student')">Student</button>
+    </div>
+
+    <div id="teacher-login-form">
+      <div class="alert alert-error" id="teacher-login-error"></div>
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" id="teacher-username" type="text" placeholder="admin" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="teacher-password" type="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="alert alert-info show" style="font-size:0.8rem;">Demo: username <strong>admin</strong> / password <strong>admin123</strong></div>
+      <button class="btn btn-primary btn-full btn-lg" onclick="loginTeacher()">Sign In as Teacher</button>
+    </div>
+
+    <div id="student-login-form" style="display:none;">
+      <div class="alert alert-error" id="student-login-error"></div>
+      <div class="form-group">
+        <label class="form-label">Session Code</label>
+        <input class="form-input" id="student-code" type="text" placeholder="e.g. G7-PRE-001" style="text-transform:uppercase;" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input class="form-input" id="student-name-input" type="text" placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Grade Level</label>
+        <select class="form-select" id="student-grade">
+          <option>Grade 7</option>
+          <option>Grade 8</option>
+          <option>Grade 9</option>
+          <option>Grade 10</option>
+        </select>
+      </div>
+      <div class="alert alert-info show" style="font-size:0.8rem;">Use any code like <strong>PRETEST</strong> to start</div>
+      <button class="btn btn-gold btn-full btn-lg" onclick="loginStudent()">Start Assessment</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TEACHER APP SCREEN ─── -->
+<div id="screen-app" class="screen">
+  <!-- Mobile overlay -->
+  <div class="overlay-mobile" id="mobile-overlay" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">Digital Phil-IRI</div>
+      <div class="sidebar-logo-sub">Assessment System</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <button class="nav-item active" onclick="navigateTo('dashboard')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Dashboard
+      </button>
+
+      <div class="nav-section-label">Assessments</div>
+      <button class="nav-item" onclick="navigateTo('passages')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Passages & Materials
+      </button>
+      <button class="nav-item" onclick="navigateTo('wordlists')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+        Word Lists
+      </button>
+      <button class="nav-item" onclick="navigateTo('sessions')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        Test Sessions
+      </button>
+
+      <div class="nav-section-label">Students</div>
+      <button class="nav-item" onclick="navigateTo('students')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        Student Records
+      </button>
+      <button class="nav-item" onclick="navigateTo('results')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+        Results & Scores
+      </button>
+      <button class="nav-item" onclick="navigateTo('analytics')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+        Analytics
+      </button>
+
+      <div class="nav-section-label">Settings</div>
+      <button class="nav-item" onclick="navigateTo('settings')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+        Settings
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" id="user-avatar-text">A</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-username">Admin</div>
+          <div class="user-role" id="sidebar-role">Administrator</div>
+        </div>
+        <button class="btn-logout" onclick="logout()" title="Sign out">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <button id="hamburger" onclick="toggleSidebar()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <span class="topbar-title" id="topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-sm btn-outline" onclick="showExportModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Export
+        </button>
+      </div>
+    </div>
+
+    <div class="content-area">
+
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Overview of reading assessment performance</p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card navy">
+            <div class="stat-label">Total Students</div>
+            <div class="stat-value" id="stat-students">24</div>
+            <div class="stat-sub">Enrolled this term</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-label">Assessments Done</div>
+            <div class="stat-value" id="stat-assessments">18</div>
+            <div class="stat-sub">Pre-tests & post-tests</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Independent Level</div>
+            <div class="stat-value" id="stat-independent">8</div>
+            <div class="stat-sub"><span class="stat-badge badge-green">33%</span> of students</div>
+          </div>
+          <div class="stat-card teal">
+            <div class="stat-label">Instructional Level</div>
+            <div class="stat-value" id="stat-instructional">11</div>
+            <div class="stat-sub"><span class="stat-badge badge-gold">46%</span> of students</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Frustration Level</div>
+            <div class="stat-value" id="stat-frustration">5</div>
+            <div class="stat-sub"><span class="stat-badge badge-red">21%</span> need support</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Reading Level Distribution</span>
+              <span class="badge-navy chip">Pre-test</span>
+            </div>
+            <div class="bar-chart" id="level-chart">
+              <div class="bar-row">
+                <div class="bar-label">Grade 7</div>
+                <div class="bar-track"><div class="bar-fill progress-navy" style="width:65%"></div></div>
+                <div class="bar-val">65%</div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">Grade 8</div>
+                <div class="bar-track"><div class="bar-fill progress-teal" style="width:72%"></div></div>
+                <div class="bar-val">72%</div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">Grade 9</div>
+                <div class="bar-track"><div class="bar-fill progress-gold" style="width:58%"></div></div>
+                <div class="bar-val">58%</div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-label">Grade 10</div>
+                <div class="bar-track"><div class="bar-fill progress-green" style="width:81%"></div></div>
+                <div class="bar-val">81%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Recent Activity</span>
+              <button class="btn btn-sm btn-outline" onclick="navigateTo('results')">View All</button>
+            </div>
+            <div id="recent-activity-list">
+              <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--border);">
+                <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;background:var(--navy-light);">JS</div>
+                <div style="flex:1;">
+                  <div style="font-size:0.85rem;font-weight:500;">Juan Santos</div>
+                  <div style="font-size:0.75rem;color:var(--text3);">Grade 7 Pre-test completed</div>
+                </div>
+                <span class="badge-green chip">Independent</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--border);">
+                <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;background:var(--teal);">MR</div>
+                <div style="flex:1;">
+                  <div style="font-size:0.85rem;font-weight:500;">Maria Reyes</div>
+                  <div style="font-size:0.75rem;color:var(--text3);">Grade 8 Pre-test completed</div>
+                </div>
+                <span class="badge-gold chip">Instructional</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--border);">
+                <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;background:var(--red);">PC</div>
+                <div style="flex:1;">
+                  <div style="font-size:0.85rem;font-weight:500;">Pedro Cruz</div>
+                  <div style="font-size:0.75rem;color:var(--text3);">Grade 7 Pre-test completed</div>
+                </div>
+                <span class="badge-red chip">Frustration</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;">
+                <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;background:var(--green);">AL</div>
+                <div style="flex:1;">
+                  <div style="font-size:0.85rem;font-weight:500;">Ana Lim</div>
+                  <div style="font-size:0.75rem;color:var(--text3);">Grade 9 Post-test completed</div>
+                </div>
+                <span class="badge-green chip">Independent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <div class="card-header">
+            <span class="card-title">Pre-test vs Post-test Comparison</span>
+            <span class="text-muted text-sm">Class average word recognition accuracy</span>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-row">
+              <div class="bar-label">Pre-test WR</div>
+              <div class="bar-track"><div class="bar-fill" style="width:62%;background:var(--navy-light)"></div></div>
+              <div class="bar-val">62%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">Post-test WR</div>
+              <div class="bar-track"><div class="bar-fill" style="width:78%;background:var(--navy)"></div></div>
+              <div class="bar-val">78%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">Pre-test Comp.</div>
+              <div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--teal-light)"></div></div>
+              <div class="bar-val">55%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">Post-test Comp.</div>
+              <div class="bar-track"><div class="bar-fill" style="width:71%;background:var(--teal)"></div></div>
+              <div class="bar-val">71%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PASSAGES ═══ -->
+      <div class="page" id="page-passages">
+        <div class="page-header flex-between">
+          <div>
+            <h1>Reading Passages & Materials</h1>
+            <p>Manage all Phil-IRI assessment passages, comprehension questions, and scoring guides</p>
+          </div>
+          <button class="btn btn-primary" onclick="openPassageModal()">+ Add Passage</button>
+        </div>
+
+        <div class="tab-list">
+          <button class="tab-btn active" onclick="switchTab(this,'passages','tab-all-passages')">All Passages</button>
+          <button class="tab-btn" onclick="switchTab(this,'passages','tab-pre-passages')">Pre-test</button>
+          <button class="tab-btn" onclick="switchTab(this,'passages','tab-post-passages')">Post-test</button>
+          <button class="tab-btn" onclick="switchTab(this,'passages','tab-questions')">Comprehension Questions</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-all-passages">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Reading Passages</span>
+              <div style="display:flex;gap:0.5rem;align-items:center;">
+                <select class="form-select" style="width:auto;padding:0.4rem 0.7rem;font-size:0.8rem;" id="passage-grade-filter" onchange="renderPassagesTable()">
+                  <option value="">All Grades</option>
+                  <option>Grade 7</option>
+                  <option>Grade 8</option>
+                  <option>Grade 9</option>
+                  <option>Grade 10</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table id="passages-table">
+                <thead><tr>
+                  <th>Title</th><th>Grade</th><th>Type</th><th>Words</th><th>Status</th><th>Actions</th>
+                </tr></thead>
+                <tbody id="passages-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" id="tab-pre-passages">
+          <div class="card"><p class="text-muted" style="padding:1rem;">Filtered view of Pre-test passages appears here.</p></div>
+        </div>
+        <div class="tab-panel" id="tab-post-passages">
+          <div class="card"><p class="text-muted" style="padding:1rem;">Filtered view of Post-test passages appears here.</p></div>
+        </div>
+        <div class="tab-panel" id="tab-questions">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Comprehension Questions Bank</span><button class="btn btn-sm btn-primary" onclick="openQuestionModal()">+ Add Question</button></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Passage</th><th>Question</th><th>Type</th><th>Points</th><th>Actions</th></tr></thead>
+                <tbody id="questions-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ WORD LISTS ═══ -->
+      <div class="page" id="page-wordlists">
+        <div class="page-header flex-between">
+          <div>
+            <h1>Graded Word Lists</h1>
+            <p>Manage word recognition lists by grade and difficulty level</p>
+          </div>
+          <button class="btn btn-primary" onclick="openWordListModal()">+ Add Word List</button>
+        </div>
+        <div id="wordlist-container"></div>
+      </div>
+
+      <!-- ═══ SESSIONS ═══ -->
+      <div class="page" id="page-sessions">
+        <div class="page-header flex-between">
+          <div>
+            <h1>Test Sessions</h1>
+            <p>Create and manage pre-test and post-test sessions</p>
+          </div>
+          <button class="btn btn-primary" onclick="openSessionModal()">+ Create Session</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Active & Recent Sessions</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Session Name</th><th>Type</th><th>Grade</th><th>Code</th><th>Students</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="sessions-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ STUDENTS ═══ -->
+      <div class="page" id="page-students">
+        <div class="page-header flex-between">
+          <div>
+            <h1>Student Records</h1>
+            <p>Manage enrolled students and their profiles</p>
+          </div>
+          <button class="btn btn-primary" onclick="openStudentModal()">+ Add Student</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Enrolled Students</span>
+            <input class="form-input" style="width:220px;padding:0.4rem 0.7rem;font-size:0.85rem;" placeholder="Search students..." oninput="filterStudents(this.value)">
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Grade</th><th>LRN</th><th>Pre-test</th><th>Post-test</th><th>Current Level</th><th>Actions</th></tr></thead>
+              <tbody id="students-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ RESULTS ═══ -->
+      <div class="page" id="page-results">
+        <div class="page-header">
+          <h1>Results & Scores</h1>
+          <p>View and analyze individual student assessment results</p>
+        </div>
+        <div class="card mb-2">
+          <div class="card-header"><span class="card-title">Filter Results</span></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Grade Level</label>
+              <select class="form-select" id="result-grade-filter" onchange="renderResults()">
+                <option value="">All Grades</option>
+                <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Test Type</label>
+              <select class="form-select" id="result-type-filter" onchange="renderResults()">
+                <option value="">All Types</option>
+                <option>Pre-test</option><option>Post-test</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>Grade</th><th>Test Type</th><th>Date</th><th>WR Score</th><th>Comp. Score</th><th>Reading Level</th><th>Actions</th></tr></thead>
+              <tbody id="results-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ANALYTICS ═══ -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <h1>Analytics & Reports</h1>
+          <p>Class performance insights and reading level trends</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card navy">
+            <div class="stat-label">Avg. WR Accuracy</div>
+            <div class="stat-value">71%</div>
+            <div class="stat-sub">Word recognition</div>
+          </div>
+          <div class="stat-card teal">
+            <div class="stat-label">Avg. Comprehension</div>
+            <div class="stat-value">63%</div>
+            <div class="stat-sub">All assessments</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-label">Improvement Rate</div>
+            <div class="stat-value">+16%</div>
+            <div class="stat-sub">Pre → Post</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Completion Rate</div>
+            <div class="stat-value">87%</div>
+            <div class="stat-sub">Tests completed</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Most Common Reading Errors</span></div>
+            <div class="bar-chart">
+              <div class="bar-row"><div class="bar-label">Mispronunciation</div><div class="bar-track"><div class="bar-fill" style="width:78%;background:var(--red)"></div></div><div class="bar-val">78%</div></div>
+              <div class="bar-row"><div class="bar-label">Word Omission</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:var(--orange)"></div></div><div class="bar-val">52%</div></div>
+              <div class="bar-row"><div class="bar-label">Substitution</div><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--gold)"></div></div><div class="bar-val">45%</div></div>
+              <div class="bar-row"><div class="bar-label">Insertion</div><div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--teal)"></div></div><div class="bar-val">30%</div></div>
+              <div class="bar-row"><div class="bar-label">Repetition</div><div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--navy-light)"></div></div><div class="bar-val">22%</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Level Distribution by Grade</span></div>
+            <div style="font-size:0.8rem;color:var(--text3);margin-bottom:0.75rem;">Independent / Instructional / Frustration</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;" id="grade-dist-chart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SETTINGS ═══ -->
+      <div class="page" id="page-settings">
+        <div class="page-header">
+          <h1>System Settings</h1>
+          <p>Configure assessment parameters, scoring rules, and access controls</p>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Scoring Parameters</span></div>
+            <div class="form-group">
+              <label class="form-label">Independent Level Threshold (%)</label>
+              <input class="form-input" type="number" id="setting-independent" value="97" min="90" max="100">
+              <div class="form-hint">Word recognition accuracy % for independent reading level</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Instructional Level Threshold (%)</label>
+              <input class="form-input" type="number" id="setting-instructional" value="91" min="80" max="96">
+              <div class="form-hint">Minimum accuracy for instructional level</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Comprehension Passing Score (%)</label>
+              <input class="form-input" type="number" id="setting-comp" value="75" min="50" max="100">
+            </div>
+            <button class="btn btn-primary" onclick="saveSettings()">Save Parameters</button>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Access Control & Locks</span></div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;">
+              <div class="flex-between" style="padding:0.75rem;background:var(--surface2);border-radius:var(--radius-sm);">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;">Lock Answer Keys</div>
+                  <div class="text-muted">Prevent students from viewing correct answers</div>
+                </div>
+                <label class="toggle-switch"><input type="checkbox" id="lock-answers" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="flex-between" style="padding:0.75rem;background:var(--surface2);border-radius:var(--radius-sm);">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;">Lock Scoring Formulas</div>
+                  <div class="text-muted">Only admin can edit scoring rules</div>
+                </div>
+                <label class="toggle-switch"><input type="checkbox" id="lock-scoring" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="flex-between" style="padding:0.75rem;background:var(--surface2);border-radius:var(--radius-sm);">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;">Show Immediate Feedback</div>
+                  <div class="text-muted">Show scores right after assessment</div>
+                </div>
+                <label class="toggle-switch"><input type="checkbox" id="show-feedback"><span class="toggle-slider"></span></label>
+              </div>
+              <div class="flex-between" style="padding:0.75rem;background:var(--surface2);border-radius:var(--radius-sm);">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;">Enable Audio Recording</div>
+                  <div class="text-muted">Record oral reading sessions</div>
+                </div>
+                <label class="toggle-switch"><input type="checkbox" id="enable-audio" checked><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <div class="card-header"><span class="card-title">Manage Teacher Accounts</span><button class="btn btn-sm btn-primary" onclick="openAddTeacherModal()">+ Add Teacher</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="teachers-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div><!-- /screen-app -->
+
+<!-- ─── STUDENT ASSESSMENT SCREEN ─── -->
+<div id="screen-student" class="screen">
+  <div class="student-header">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;">Digital Phil-IRI</div>
+      <div style="font-size:0.75rem;opacity:0.7;" id="student-session-label">Reading Assessment</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <div style="text-align:right;">
+        <div style="font-size:0.8rem;opacity:0.7;">Student</div>
+        <div style="font-size:0.9rem;font-weight:500;" id="student-name-display">—</div>
+      </div>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);" onclick="logout()">Exit</button>
+    </div>
+  </div>
+  <div class="student-progress-bar">
+    <div class="student-progress-fill" id="student-progress" style="width:0%"></div>
+  </div>
+
+  <div class="student-content">
+    <!-- Phase Indicator -->
+    <div class="phase-indicator" id="phase-indicator">
+      <div class="phase-dot active" id="phase-word">Word Recognition</div>
+      <div class="phase-dot" id="phase-oral">Oral Reading</div>
+      <div class="phase-dot" id="phase-comp">Comprehension</div>
+      <div class="phase-dot" id="phase-fluency">Fluency</div>
+    </div>
+
+    <!-- PHASE 1: Word Recognition -->
+    <div id="student-phase-1">
+      <div class="card mb-2">
+        <div class="card-header">
+          <span class="card-title">Phase 1: Word Recognition</span>
+          <span class="badge-navy chip">Graded Word List</span>
+        </div>
+        <p class="text-muted mb-2">Read each word aloud. Click the word to mark it as <strong style="color:var(--green)">correct</strong>, <strong style="color:var(--red)">wrong</strong>, or <strong style="color:var(--gold)">skipped</strong>.</p>
+        <div class="word-list" id="word-recognition-list"></div>
+        <hr class="divider">
+        <div class="flex-between">
+          <div>
+            <span style="font-size:0.85rem;color:var(--text2);">Score: </span>
+            <span style="font-weight:600;" id="wr-score-display">0 / 20</span>
+          </div>
+          <button class="btn btn-primary" onclick="completeWordRecognition()">Next: Oral Reading →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2: Oral Reading -->
+    <div id="student-phase-2" style="display:none;">
+      <div class="card mb-2">
+        <div class="card-header">
+          <span class="card-title">Phase 2: Oral Reading</span>
+          <span class="badge-teal chip">Reading Passage</span>
+        </div>
+        <p class="text-muted mb-2">Read the passage below aloud. Use the record button to capture your reading.</p>
+        <div class="passage-box" id="oral-reading-passage"></div>
+        <hr class="divider">
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <button class="record-btn" id="record-btn" onclick="toggleRecording()">🎙</button>
+          <div>
+            <div class="record-timer" id="record-timer">00:00</div>
+            <div style="font-size:0.75rem;color:var(--text3);" id="record-status">Press to start recording</div>
+          </div>
+          <div style="flex:1;"></div>
+          <div>
+            <label class="form-label">Reading Errors (teacher marks)</label>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;" id="error-type-btns">
+              <button class="btn btn-sm" style="background:var(--red-pale);color:var(--red);border:1px solid var(--red);" onclick="logError('mispronunciation')">+ Mispronunciation</button>
+              <button class="btn btn-sm" style="background:var(--orange-pale);color:var(--orange);border:1px solid var(--orange);" onclick="logError('omission')">+ Omission</button>
+              <button class="btn btn-sm" style="background:var(--gold-pale);color:#9a6c00;border:1px solid var(--gold);" onclick="logError('substitution')">+ Substitution</button>
+              <button class="btn btn-sm" style="background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal);" onclick="logError('insertion')">+ Insertion</button>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text3);margin-top:0.5rem;">Errors logged: <span id="error-count">0</span></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="flex-between">
+          <button class="btn btn-outline" onclick="goToPhase(1)">← Back</button>
+          <button class="btn btn-primary" onclick="completeOralReading()">Next: Comprehension →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3: Comprehension -->
+    <div id="student-phase-3" style="display:none;">
+      <div class="card mb-2">
+        <div class="card-header">
+          <span class="card-title">Phase 3: Comprehension Questions</span>
+          <span class="badge-gold chip" id="comp-score-badge">0 / 0 answered</span>
+        </div>
+        <p class="text-muted mb-2">Answer the following questions about the passage you just read.</p>
+        <div id="comprehension-questions"></div>
+        <hr class="divider">
+        <div class="flex-between">
+          <button class="btn btn-outline" onclick="goToPhase(2)">← Back</button>
+          <button class="btn btn-primary" onclick="completeComprehension()">Next: Fluency →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4: Fluency / Rate -->
+    <div id="student-phase-4" style="display:none;">
+      <div class="card mb-2">
+        <div class="card-header">
+          <span class="card-title">Phase 4: Reading Fluency</span>
+          <span class="badge-navy chip">Timed Task</span>
+        </div>
+        <p class="text-muted mb-2">Read the passage below as quickly and accurately as you can. The timer will measure your reading rate.</p>
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+          <button class="btn btn-primary" id="fluency-start-btn" onclick="startFluencyTimer()">▶ Start Timer</button>
+          <div style="font-family:'DM Mono',monospace;font-size:1.5rem;color:var(--navy);font-weight:600;" id="fluency-timer">1:00</div>
+          <div style="font-size:0.8rem;color:var(--text3);">Target: 60 seconds</div>
+        </div>
+        <div class="passage-box" id="fluency-passage"></div>
+        <hr class="divider">
+        <div class="form-group">
+          <label class="form-label">Words Read Correctly</label>
+          <input class="form-input" type="number" id="fluency-words" placeholder="Enter number of words read correctly in 1 minute" style="max-width:300px;">
+        </div>
+        <div class="flex-between">
+          <button class="btn btn-outline" onclick="goToPhase(3)">← Back</button>
+          <button class="btn btn-gold btn-lg" onclick="submitAssessment()">Submit Assessment ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="student-results" style="display:none;">
+      <div class="card" style="text-align:center;padding:2.5rem;">
+        <div style="font-size:3rem;margin-bottom:0.75rem;">🎉</div>
+        <h2 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:0.5rem;">Assessment Complete!</h2>
+        <p class="text-muted mb-3">Great job completing the Phil-IRI assessment. Here are your results:</p>
+        <div class="stat-grid" style="max-width:500px;margin:0 auto 1.5rem;">
+          <div class="stat-card navy"><div class="stat-label">Word Recognition</div><div class="stat-value" id="result-wr">—</div></div>
+          <div class="stat-card teal"><div class="stat-label">Comprehension</div><div class="stat-value" id="result-comp">—</div></div>
+          <div class="stat-card gold"><div class="stat-label">Fluency (WPM)</div><div class="stat-value" id="result-fluency">—</div></div>
+        </div>
+        <div style="padding:1rem;border-radius:var(--radius);display:inline-block;margin-bottom:1.5rem;" id="reading-level-display"></div>
+        <div><button class="btn btn-outline" onclick="logout()">Exit Assessment</button></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── MODALS ─── -->
+
+<!-- Passage Modal -->
+<div class="modal-overlay" id="modal-passage">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="passage-modal-title">Add Reading Passage</span>
+      <button class="btn-close" onclick="closeModal('modal-passage')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Passage Title</label>
+          <input class="form-input" id="p-title" placeholder="e.g. The Farmer and the Crow">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grade Level</label>
+          <select class="form-select" id="p-grade"><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Test Type</label>
+          <select class="form-select" id="p-type"><option>Pre-test</option><option>Post-test</option><option>Both</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phil-IRI Level</label>
+          <select class="form-select" id="p-level"><option>Independent</option><option>Instructional</option><option>Frustration</option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Passage Text</label>
+        <textarea class="form-textarea" id="p-text" rows="8" placeholder="Enter the full reading passage text here..."></textarea>
+        <div class="form-hint" id="p-word-count">Word count: 0</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Reading Notes / Scoring Guide (Optional)</label>
+        <textarea class="form-textarea" id="p-notes" rows="3" placeholder="Notes for the teacher on how to score this passage..."></textarea>
+      </div>
+      <div class="flex" style="gap:0.5rem;">
+        <input type="checkbox" id="p-locked">
+        <label for="p-locked" class="form-label" style="margin:0;cursor:pointer;">
+          <span class="lock-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>
+          Lock this passage (admin-only editing)
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-passage')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePassage()">Save Passage</button>
+    </div>
+  </div>
+</div>
+
+<!-- Session Modal -->
+<div class="modal-overlay" id="modal-session">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Create Test Session</span>
+      <button class="btn-close" onclick="closeModal('modal-session')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Session Name</label>
+          <input class="form-input" id="sess-name" placeholder="e.g. Grade 7 Pre-test Q1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Test Type</label>
+          <select class="form-select" id="sess-type"><option>Pre-test</option><option>Post-test</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Grade Level</label>
+          <select class="form-select" id="sess-grade"><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Session Code (auto-generated)</label>
+          <input class="form-input" id="sess-code" readonly style="background:var(--surface2);">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Assign Passage</label>
+        <select class="form-select" id="sess-passage"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Assign Word List</label>
+        <select class="form-select" id="sess-wordlist"></select>
+      </div>
+      <div class="alert alert-info show" style="font-size:0.8rem;">Students will use the session code to access this assessment.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-session')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSession()">Create Session</button>
+    </div>
+  </div>
+</div>
+
+<!-- Student Modal -->
+<div class="modal-overlay" id="modal-student">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <span class="modal-title">Add Student</span>
+      <button class="btn-close" onclick="closeModal('modal-student')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" id="stu-first" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input class="form-input" id="stu-last" placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Grade Level</label>
+          <select class="form-select" id="stu-grade"><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">LRN (optional)</label>
+          <input class="form-input" id="stu-lrn" placeholder="Learner Reference Number">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-student')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveStudent()">Add Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- Word List Modal -->
+<div class="modal-overlay" id="modal-wordlist">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add / Edit Word List</span>
+      <button class="btn-close" onclick="closeModal('modal-wordlist')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">List Name</label>
+          <input class="form-input" id="wl-name" placeholder="e.g. Grade 7 Pre-test Words">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grade Level</label>
+          <select class="form-select" id="wl-grade"><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Words (one per line or comma-separated)</label>
+        <textarea class="form-textarea" id="wl-words" rows="8" placeholder="house&#10;garden&#10;school&#10;teacher&#10;..."></textarea>
+        <div class="form-hint">Enter words one per line. Recommended: 20 words per list.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-wordlist')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveWordList()">Save Word List</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal-overlay" id="modal-export">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <span class="modal-title">Export Reports</span>
+      <button class="btn-close" onclick="closeModal('modal-export')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Export Type</label>
+        <select class="form-select" id="export-type">
+          <option>Class Summary Report</option>
+          <option>Individual Student Report</option>
+          <option>Pre/Post Comparison</option>
+          <option>Reading Level Distribution</option>
+          <option>Error Analysis</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Format</label>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.85rem;">
+            <input type="radio" name="export-format" value="csv" checked> CSV/Excel
+          </label>
+          <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.85rem;">
+            <input type="radio" name="export-format" value="json"> JSON
+          </label>
+          <label style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.85rem;">
+            <input type="radio" name="export-format" value="txt"> Text Report
+          </label>
+        </div>
+      </div>
+      <div class="alert alert-info show" style="font-size:0.8rem;">Data is exported from local storage and includes all saved assessment results.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-export')">Cancel</button>
+      <button class="btn btn-teal" onclick="doExport()">Export Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Result Modal -->
+<div class="modal-overlay" id="modal-view-result">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Assessment Result Detail</span>
+      <button class="btn-close" onclick="closeModal('modal-view-result')">×</button>
+    </div>
+    <div class="modal-body" id="modal-result-body"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Toggle Switch CSS -->
+<style>
+.toggle-switch { position: relative; display: inline-block; width: 42px; height: 24px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--border); transition: .3s; border-radius: 24px; }
+.toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; transition: .3s; border-radius: 50%; }
+input:checked + .toggle-slider { background: var(--navy); }
+input:checked + .toggle-slider:before { transform: translateX(18px); }
+</style>
+
+<script>
+// ════════════════════════════════════════════════════════
+// DATA STORE (IndexedDB + localStorage fallback)
+// ════════════════════════════════════════════════════════
+const DB_KEY = 'philiri_data';
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return getDefaultData();
+}
+
+function saveData(data) {
+  try { localStorage.setItem(DB_KEY, JSON.stringify(data)); } catch(e) { console.warn('Storage full'); }
+}
+
+function getDefaultData() {
+  return {
+    users: [
+      { id: 1, username: 'admin', password: 'admin123', name: 'Administrator', role: 'admin' },
+      { id: 2, username: 'teacher1', password: 'teacher123', name: 'Ma. Santos', role: 'teacher' }
+    ],
+    passages: [
+      { id: 1, title: 'Ang Batang Mabait', grade: 'Grade 7', type: 'Pre-test', level: 'Independent', text: 'Si Pedro ay isang batang mabait. Siya ay nakatira sa isang mallit na baryo sa lalawigan. Araw-araw, tinutulungan niya ang kanyang ina sa mga gawaing-bahay. Ang kanyang paboritong libangan ay ang magbasa ng mga aklat sa ilalim ng malaking puno ng mangga sa kanilang bakuran. Maraming mga kaibigan si Pedro dahil siya ay laging masaya at matulungin sa lahat.', wordCount: 65, notes: 'Assess fluency and comprehension. Target: 95%+ accuracy.', locked: false },
+      { id: 2, title: 'The River and the Sea', grade: 'Grade 7', type: 'Post-test', level: 'Instructional', text: 'Long ago, a small river flowed through a vast green forest. Every day, the river would carry fresh water to the plants, animals, and people who lived nearby. One summer, the rain stopped falling and the river began to dry up. The animals were afraid they would have no water to drink. Then a wise old turtle said, "Let us dig deeper into the earth to find water." Together, all the animals worked and found a new source of water deep underground.', wordCount: 82, notes: '', locked: false },
+      { id: 3, title: 'Ang Aming Paaralan', grade: 'Grade 8', type: 'Pre-test', level: 'Instructional', text: 'Ang aming paaralan ay matatagpuan sa gitna ng bayan. Ito ay may malawak na bakuran at maraming puno na nagbibigay ng lilim sa mga mag-aaral tuwing pahinga. Ang aming gusali ay may tatlong palapag na may kabuuang dalawampu at apat na silid-aralan. Sa bawat silid-aralan ay mayroong mga libro, mapa, at larawan ng mga bayani ng ating bansa na nagsisilbing inspirasyon sa lahat ng mag-aaral.', wordCount: 72, notes: 'Check vowel pronunciation in Filipino.', locked: true },
+      { id: 4, title: 'Technology in Education', grade: 'Grade 9', type: 'Pre-test', level: 'Instructional', text: 'Technology has changed the way students learn in schools around the world. With the use of computers, tablets, and the internet, students can now access information that was once only available in expensive books or large libraries. Online learning platforms allow students to study at their own pace, review difficult concepts multiple times, and even connect with experts from different countries. However, teachers and parents must guide students to use technology wisely and responsibly.', wordCount: 78, notes: '', locked: false },
+    ],
+    questions: [
+      { id: 1, passageId: 1, text: 'Saan nakatira si Pedro?', type: 'multiple-choice', options: ['Sa lungsod', 'Sa baryo sa lalawigan', 'Sa kabundukan', 'Sa baybayin'], answer: 1, points: 2 },
+      { id: 2, passageId: 1, text: 'Ano ang paboritong libangan ni Pedro?', type: 'multiple-choice', options: ['Maglaro ng basketbol', 'Magbasa ng mga aklat', 'Manood ng TV', 'Magluto ng pagkain'], answer: 1, points: 2 },
+      { id: 3, passageId: 1, text: 'Bakit maraming kaibigan si Pedro?', type: 'multiple-choice', options: ['Dahil mayaman siya', 'Dahil maganda siya', 'Dahil lagi siyang masaya at matulungin', 'Dahil matalino siya'], answer: 2, points: 2 },
+      { id: 4, passageId: 2, text: 'Where did the small river flow?', type: 'multiple-choice', options: ['Through a desert', 'Through a vast green forest', 'Through a mountain', 'Through a city'], answer: 1, points: 2 },
+      { id: 5, passageId: 2, text: 'What problem did the animals face?', type: 'multiple-choice', options: ['A flood', 'Predators', 'No water to drink', 'No food'], answer: 2, points: 2 },
+      { id: 6, passageId: 2, text: 'Who suggested digging deeper into the earth?', type: 'multiple-choice', options: ['A young rabbit', 'An old eagle', 'A wise old turtle', 'A deer'], answer: 2, points: 2 },
+    ],
+    wordLists: [
+      { id: 1, name: 'Grade 7 Pre-test Words', grade: 'Grade 7', words: ['house','school','river','forest','teacher','mother','garden','happy','water','farmer','child','flower','morning','village','friend','reading','family','market','basket','candle'] },
+      { id: 2, name: 'Grade 8 Pre-test Words', grade: 'Grade 8', words: ['environment','literature','paragraph','community','education','government','technology','tradition','understand','necessary','different','important','knowledge','character','adventure','celebrate','beautiful','excellent','practical','permanent'] },
+      { id: 3, name: 'Grade 9 Pre-test Words', grade: 'Grade 9', words: ['approximately','circumstances','fundamental','interpretation','independence','communication','administration','development','characteristics','environment','investigation','accomplishment','consequences','entertainment','contemporary','bibliography','characteristics','documentation','transportation','organizations'] },
+    ],
+    students: [
+      { id: 1, firstName: 'Juan', lastName: 'Santos', grade: 'Grade 7', lrn: '100001001001' },
+      { id: 2, firstName: 'Maria', lastName: 'Reyes', grade: 'Grade 8', lrn: '100001001002' },
+      { id: 3, firstName: 'Pedro', lastName: 'Cruz', grade: 'Grade 7', lrn: '100001001003' },
+      { id: 4, firstName: 'Ana', lastName: 'Lim', grade: 'Grade 9', lrn: '100001001004' },
+      { id: 5, firstName: 'Jose', lastName: 'Garcia', grade: 'Grade 10', lrn: '100001001005' },
+    ],
+    sessions: [
+      { id: 1, name: 'Grade 7 Pre-test Q1 2024', type: 'Pre-test', grade: 'Grade 7', code: 'PRETEST', passageId: 1, wordListId: 1, status: 'active' },
+      { id: 2, name: 'Grade 8 Pre-test Q1 2024', type: 'Pre-test', grade: 'Grade 8', code: 'GR8PRE', passageId: 3, wordListId: 2, status: 'active' },
+    ],
+    results: [
+      { id: 1, studentId: 1, studentName: 'Juan Santos', grade: 'Grade 7', testType: 'Pre-test', date: '2024-01-15', wrScore: 95, wrTotal: 20, compScore: 5, compTotal: 6, fluency: 85, level: 'Independent', errors: {mispronunciation:1,omission:0,substitution:0,insertion:0} },
+      { id: 2, studentId: 2, studentName: 'Maria Reyes', grade: 'Grade 8', testType: 'Pre-test', date: '2024-01-15', wrScore: 75, wrTotal: 20, compScore: 4, compTotal: 6, fluency: 72, level: 'Instructional', errors: {mispronunciation:2,omission:1,substitution:2,insertion:0} },
+      { id: 3, studentId: 3, studentName: 'Pedro Cruz', grade: 'Grade 7', testType: 'Pre-test', date: '2024-01-16', wrScore: 60, wrTotal: 20, compScore: 2, compTotal: 6, fluency: 55, level: 'Frustration', errors: {mispronunciation:4,omission:2,substitution:2,insertion:0} },
+      { id: 4, studentId: 4, studentName: 'Ana Lim', grade: 'Grade 9', testType: 'Post-test', date: '2024-03-10', wrScore: 98, wrTotal: 20, compScore: 6, compTotal: 6, fluency: 102, level: 'Independent', errors: {mispronunciation:0,omission:0,substitution:1,insertion:0} },
+    ],
+    settings: {
+      independentThreshold: 97,
+      instructionalThreshold: 91,
+      compPassingScore: 75,
+      lockAnswers: true,
+      lockScoring: true,
+      showFeedback: false,
+      enableAudio: true
+    }
+  };
+}
+
+let appData = loadData();
+let currentUser = null;
+let currentStudentSession = null;
+
+// ════════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════════
+function switchLoginTab(tab) {
+  document.querySelectorAll('.login-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='teacher')||(i===1&&tab==='student')));
+  document.getElementById('teacher-login-form').style.display = tab==='teacher'?'block':'none';
+  document.getElementById('student-login-form').style.display = tab==='student'?'block':'none';
+}
+
+function loginTeacher() {
+  const u = document.getElementById('teacher-username').value.trim();
+  const p = document.getElementById('teacher-password').value.trim();
+  const user = appData.users.find(x => x.username===u && x.password===p);
+  if (!user) {
+    showAlert('teacher-login-error', 'Invalid username or password.');
+    return;
+  }
+  currentUser = user;
+  document.getElementById('sidebar-username').textContent = user.name;
+  document.getElementById('sidebar-role').textContent = user.role==='admin'?'Administrator':'Teacher';
+  document.getElementById('user-avatar-text').textContent = user.name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();
+  showScreen('screen-app');
+  renderAll();
+}
+
+function loginStudent() {
+  const code = document.getElementById('student-code').value.trim().toUpperCase();
+  const name = document.getElementById('student-name-input').value.trim();
+  const grade = document.getElementById('student-grade').value;
+  if (!name) { showAlert('student-login-error','Please enter your name.'); return; }
+  const session = appData.sessions.find(s => s.code.toUpperCase()===code) || appData.sessions[0];
+  currentStudentSession = { session, studentName: name, grade };
+  document.getElementById('student-name-display').textContent = name;
+  document.getElementById('student-session-label').textContent = session ? session.name : 'General Assessment';
+  showScreen('screen-student');
+  initStudentAssessment(session);
+}
+
+function logout() {
+  currentUser = null;
+  currentStudentSession = null;
+  document.getElementById('teacher-username').value = '';
+  document.getElementById('teacher-password').value = '';
+  document.getElementById('student-code').value = '';
+  document.getElementById('student-name-input').value = '';
+  showScreen('screen-login');
+}
+
+// ════════════════════════════════════════════════════════
+// SCREEN / NAV
+// ════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function navigateTo(pageName) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+pageName).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector(`[onclick="navigateTo('${pageName}')"]`)?.classList.add('active');
+  const titles = {dashboard:'Dashboard',passages:'Passages & Materials',wordlists:'Word Lists',sessions:'Test Sessions',students:'Student Records',results:'Results & Scores',analytics:'Analytics',settings:'Settings'};
+  document.getElementById('topbar-title').textContent = titles[pageName]||pageName;
+  closeSidebar();
+  if (pageName==='passages') renderPassagesTable();
+  if (pageName==='wordlists') renderWordLists();
+  if (pageName==='students') renderStudents();
+  if (pageName==='sessions') renderSessions();
+  if (pageName==='results') renderResults();
+  if (pageName==='analytics') renderAnalytics();
+  if (pageName==='settings') renderSettings();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mobile-overlay').classList.toggle('active');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobile-overlay').classList.remove('active');
+}
+
+// ════════════════════════════════════════════════════════
+// MODALS
+// ════════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ════════════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════════════════════
+function renderAll() {
+  renderPassagesTable();
+  renderStudents();
+  renderSessions();
+  renderResults();
+  renderWordLists();
+  renderAnalytics();
+  renderSettings();
+  renderQuestionsTable();
+  updateDashboardStats();
+  buildGradeDistChart();
+}
+
+function updateDashboardStats() {
+  document.getElementById('stat-students').textContent = appData.students.length;
+  document.getElementById('stat-assessments').textContent = appData.results.length;
+  const levels = appData.results.map(r => r.level);
+  document.getElementById('stat-independent').textContent = levels.filter(l=>l==='Independent').length;
+  document.getElementById('stat-instructional').textContent = levels.filter(l=>l==='Instructional').length;
+  document.getElementById('stat-frustration').textContent = levels.filter(l=>l==='Frustration').length;
+}
+
+function renderPassagesTable() {
+  const filter = document.getElementById('passage-grade-filter')?.value || '';
+  const rows = appData.passages.filter(p => !filter || p.grade===filter).map(p => `
+    <tr>
+      <td><strong style="font-size:0.875rem;">${p.title}</strong>${p.locked?'<span class="lock-icon" style="margin-left:0.4rem;"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>':''}</td>
+      <td><span class="chip badge-navy">${p.grade}</span></td>
+      <td><span class="chip ${p.type==='Pre-test'?'badge-teal':'badge-gold'}">${p.type}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:0.8rem;">${p.text.split(/\s+/).length}</td>
+      <td><span class="chip ${p.level==='Independent'?'badge-green':p.level==='Instructional'?'badge-gold':'badge-red'}">${p.level}</span></td>
+      <td>
+        <div style="display:flex;gap:0.3rem;">
+          ${!p.locked ? `<button class="btn btn-sm btn-outline" onclick="editPassage(${p.id})">Edit</button>` : '<span class="text-muted" style="font-size:0.75rem;">Locked</span>'}
+          ${!p.locked ? `<button class="btn btn-sm btn-danger" onclick="deletePassage(${p.id})">Del</button>` : ''}
+        </div>
+      </td>
+    </tr>`).join('');
+  document.getElementById('passages-tbody').innerHTML = rows || '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:2rem;">No passages found. Add your first passage!</td></tr>';
+}
+
+function renderQuestionsTable() {
+  const rows = appData.questions.map(q => {
+    const passage = appData.passages.find(p=>p.id===q.passageId);
+    return `<tr>
+      <td style="font-size:0.8rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${passage?.title||'—'}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.875rem;">${q.text}</td>
+      <td><span class="chip badge-navy">${q.type}</span></td>
+      <td style="font-family:'DM Mono',monospace;">${q.points}</td>
+      <td><div style="display:flex;gap:0.3rem;"><button class="btn btn-sm btn-outline" onclick="editQuestion(${q.id})">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteQuestion(${q.id})">Del</button></div></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('questions-tbody').innerHTML = rows || '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:1.5rem;">No questions yet.</td></tr>';
+}
+
+function renderWordLists() {
+  const container = document.getElementById('wordlist-container');
+  if (!container) return;
+  container.innerHTML = appData.wordLists.map(wl => `
+    <div class="card mb-2">
+      <div class="card-header">
+        <span class="card-title">${wl.name} <span class="chip badge-navy" style="margin-left:0.5rem;">${wl.grade}</span></span>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-sm btn-outline" onclick="editWordList(${wl.id})">Edit</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteWordList(${wl.id})">Delete</button>
+        </div>
+      </div>
+      <div class="word-list">${wl.words.map(w=>`<span class="word-chip" style="cursor:default;">${w}</span>`).join('')}</div>
+    </div>`).join('') || '<div class="card"><p class="text-muted" style="padding:1rem;">No word lists yet.</p></div>';
+}
+
+function renderStudents(filter='') {
+  const list = filter ? appData.students.filter(s=>`${s.firstName} ${s.lastName}`.toLowerCase().includes(filter.toLowerCase())) : appData.students;
+  const rows = list.map(s => {
+    const initials = (s.firstName[0]+s.lastName[0]).toUpperCase();
+    const results = appData.results.filter(r=>r.studentId===s.id);
+    const pre = results.find(r=>r.testType==='Pre-test');
+    const post = results.find(r=>r.testType==='Post-test');
+    const latest = post || pre;
+    const levelBadge = latest ? `<span class="chip ${latest.level==='Independent'?'badge-green':latest.level==='Instructional'?'badge-gold':'badge-red'}">${latest.level}</span>` : '<span class="text-muted">—</span>';
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:0.6rem;"><div class="user-avatar" style="width:30px;height:30px;font-size:0.7rem;background:var(--navy-light);">${initials}</div><span style="font-weight:500;">${s.firstName} ${s.lastName}</span></div></td>
+      <td>${s.grade}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:0.8rem;">${s.lrn||'—'}</td>
+      <td>${pre?`<span class="chip badge-teal">${Math.round(pre.wrScore/pre.wrTotal*100)}%</span>`:'<span class="text-muted">—</span>'}</td>
+      <td>${post?`<span class="chip badge-gold">${Math.round(post.wrScore/post.wrTotal*100)}%</span>`:'<span class="text-muted">—</span>'}</td>
+      <td>${levelBadge}</td>
+      <td><div style="display:flex;gap:0.3rem;">
+        <button class="btn btn-sm btn-outline" onclick="viewStudentResults(${s.id})">Results</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteStudent(${s.id})">Del</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('students-tbody').innerHTML = rows || '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:1.5rem;">No students found.</td></tr>';
+}
+
+function filterStudents(val) { renderStudents(val); }
+
+function renderSessions() {
+  const rows = appData.sessions.map(sess => {
+    const passage = appData.passages.find(p=>p.id===sess.passageId);
+    return `<tr>
+      <td style="font-weight:500;">${sess.name}</td>
+      <td><span class="chip ${sess.type==='Pre-test'?'badge-teal':'badge-gold'}">${sess.type}</span></td>
+      <td>${sess.grade}</td>
+      <td><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--navy);background:#e8f0f8;padding:2px 8px;border-radius:4px;">${sess.code}</span></td>
+      <td style="font-size:0.8rem;color:var(--text3);">${appData.results.filter(r=>r.testType===sess.type&&r.grade===sess.grade).length} results</td>
+      <td><span class="chip ${sess.status==='active'?'badge-green':'badge-red'}">${sess.status}</span></td>
+      <td><div style="display:flex;gap:0.3rem;">
+        <button class="btn btn-sm btn-outline" onclick="toggleSession(${sess.id})">${sess.status==='active'?'Close':'Open'}</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteSession(${sess.id})">Del</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('sessions-tbody').innerHTML = rows || '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:1.5rem;">No sessions yet.</td></tr>';
+}
+
+function renderResults() {
+  const gf = document.getElementById('result-grade-filter')?.value || '';
+  const tf = document.getElementById('result-type-filter')?.value || '';
+  const list = appData.results.filter(r => (!gf||r.grade===gf)&&(!tf||r.testType===tf));
+  const rows = list.map(r => `<tr>
+    <td style="font-weight:500;">${r.studentName}</td>
+    <td>${r.grade}</td>
+    <td><span class="chip ${r.testType==='Pre-test'?'badge-teal':'badge-gold'}">${r.testType}</span></td>
+    <td style="font-size:0.8rem;">${r.date}</td>
+    <td style="font-family:'DM Mono',monospace;">${Math.round(r.wrScore/r.wrTotal*100)}% (${r.wrScore}/${r.wrTotal})</td>
+    <td style="font-family:'DM Mono',monospace;">${Math.round(r.compScore/r.compTotal*100)}% (${r.compScore}/${r.compTotal})</td>
+    <td><span class="chip ${r.level==='Independent'?'badge-green':r.level==='Instructional'?'badge-gold':'badge-red'}">${r.level}</span></td>
+    <td><button class="btn btn-sm btn-outline" onclick="viewResult(${r.id})">View</button></td>
+  </tr>`).join('');
+  document.getElementById('results-tbody').innerHTML = rows || '<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:1.5rem;">No results found.</td></tr>';
+}
+
+function renderAnalytics() {
+  buildGradeDistChart();
+}
+
+function buildGradeDistChart() {
+  const container = document.getElementById('grade-dist-chart');
+  if (!container) return;
+  const grades = ['Grade 7','Grade 8','Grade 9','Grade 10'];
+  container.innerHTML = grades.map(g => {
+    const r = appData.results.filter(x=>x.grade===g);
+    if (!r.length) return `<div style="display:flex;gap:0.75rem;align-items:center;font-size:0.8rem;"><div style="width:70px;color:var(--text3);">${g}</div><div class="text-muted">No data</div></div>`;
+    const ind = r.filter(x=>x.level==='Independent').length;
+    const ins = r.filter(x=>x.level==='Instructional').length;
+    const fru = r.filter(x=>x.level==='Frustration').length;
+    const total = r.length;
+    return `<div style="font-size:0.8rem;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="color:var(--text2);">${g}</span><span class="text-muted">${total} tested</span></div>
+      <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;">
+        <div style="flex:${ind};background:var(--green);min-width:${ind?'4px':'0'};"></div>
+        <div style="flex:${ins};background:var(--gold);min-width:${ins?'4px':'0'};"></div>
+        <div style="flex:${fru};background:var(--red);min-width:${fru?'4px':'0'};"></div>
+      </div>
+      <div style="display:flex;gap:0.75rem;margin-top:4px;font-size:0.7rem;">
+        <span style="color:var(--green);">● Ind: ${ind}</span>
+        <span style="color:var(--gold);">● Ins: ${ins}</span>
+        <span style="color:var(--red);">● Fru: ${fru}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSettings() {
+  const s = appData.settings;
+  if (document.getElementById('setting-independent')) {
+    document.getElementById('setting-independent').value = s.independentThreshold;
+    document.getElementById('setting-instructional').value = s.instructionalThreshold;
+    document.getElementById('setting-comp').value = s.compPassingScore;
+    document.getElementById('lock-answers').checked = s.lockAnswers;
+    document.getElementById('lock-scoring').checked = s.lockScoring;
+    document.getElementById('show-feedback').checked = s.showFeedback;
+    document.getElementById('enable-audio').checked = s.enableAudio;
+  }
+  const rows = appData.users.map(u => `<tr>
+    <td style="font-weight:500;">${u.name}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:0.8rem;">${u.username}</td>
+    <td><span class="chip ${u.role==='admin'?'badge-navy':'badge-teal'}">${u.role}</span></td>
+    <td><span class="chip badge-green">Active</span></td>
+    <td><button class="btn btn-sm btn-danger" onclick="deleteUser(${u.id})">Remove</button></td>
+  </tr>`).join('');
+  if (document.getElementById('teachers-tbody')) document.getElementById('teachers-tbody').innerHTML = rows;
+}
+
+// ════════════════════════════════════════════════════════
+// PASSAGE CRUD
+// ════════════════════════════════════════════════════════
+let editingPassageId = null;
+
+function openPassageModal(id=null) {
+  editingPassageId = id;
+  document.getElementById('passage-modal-title').textContent = id ? 'Edit Passage' : 'Add Reading Passage';
+  if (id) {
+    const p = appData.passages.find(x=>x.id===id);
+    document.getElementById('p-title').value = p.title;
+    document.getElementById('p-grade').value = p.grade;
+    document.getElementById('p-type').value = p.type;
+    document.getElementById('p-level').value = p.level;
+    document.getElementById('p-text').value = p.text;
+    document.getElementById('p-notes').value = p.notes||'';
+    document.getElementById('p-locked').checked = p.locked;
+  } else {
+    document.getElementById('p-title').value='';document.getElementById('p-text').value='';document.getElementById('p-notes').value='';document.getElementById('p-locked').checked=false;
+  }
+  document.getElementById('p-text').oninput = function() { document.getElementById('p-word-count').textContent = 'Word count: '+this.value.trim().split(/\s+/).filter(Boolean).length; };
+  openModal('modal-passage');
+}
+
+function editPassage(id) { openPassageModal(id); }
+
+function savePassage() {
+  const p = { title: document.getElementById('p-title').value.trim(), grade: document.getElementById('p-grade').value, type: document.getElementById('p-type').value, level: document.getElementById('p-level').value, text: document.getElementById('p-text').value.trim(), notes: document.getElementById('p-notes').value.trim(), locked: document.getElementById('p-locked').checked };
+  if (!p.title||!p.text) { showToast('Please fill in title and passage text.','error'); return; }
+  if (editingPassageId) {
+    const idx = appData.passages.findIndex(x=>x.id===editingPassageId);
+    appData.passages[idx] = {...appData.passages[idx],...p};
+  } else {
+    p.id = Date.now();
+    appData.passages.push(p);
+  }
+  saveData(appData); renderPassagesTable(); closeModal('modal-passage');
+  showToast(editingPassageId?'Passage updated!':'Passage added!','success');
+}
+
+function deletePassage(id) {
+  if (!confirm('Delete this passage?')) return;
+  appData.passages = appData.passages.filter(p=>p.id!==id);
+  saveData(appData); renderPassagesTable(); showToast('Passage deleted.');
+}
+
+// ════════════════════════════════════════════════════════
+// WORD LIST CRUD
+// ════════════════════════════════════════════════════════
+let editingWLId = null;
+
+function openWordListModal(id=null) {
+  editingWLId = id;
+  if (id) {
+    const wl = appData.wordLists.find(x=>x.id===id);
+    document.getElementById('wl-name').value=wl.name;
+    document.getElementById('wl-grade').value=wl.grade;
+    document.getElementById('wl-words').value=wl.words.join('\n');
+  } else {
+    document.getElementById('wl-name').value='';document.getElementById('wl-words').value='';
+  }
+  openModal('modal-wordlist');
+}
+function editWordList(id) { openWordListModal(id); }
+function saveWordList() {
+  const name=document.getElementById('wl-name').value.trim();
+  const grade=document.getElementById('wl-grade').value;
+  const rawWords=document.getElementById('wl-words').value;
+  const words=rawWords.split(/[\n,]+/).map(w=>w.trim()).filter(Boolean);
+  if (!name||!words.length){showToast('Please fill in all fields.','error');return;}
+  if (editingWLId){
+    const idx=appData.wordLists.findIndex(x=>x.id===editingWLId);
+    appData.wordLists[idx]={...appData.wordLists[idx],name,grade,words};
+  } else { appData.wordLists.push({id:Date.now(),name,grade,words}); }
+  saveData(appData);renderWordLists();closeModal('modal-wordlist');
+  showToast(editingWLId?'Word list updated!':'Word list added!','success');
+}
+function deleteWordList(id){if(!confirm('Delete this word list?'))return;appData.wordLists=appData.wordLists.filter(x=>x.id!==id);saveData(appData);renderWordLists();showToast('Word list deleted.');}
+
+// ════════════════════════════════════════════════════════
+// SESSION CRUD
+// ════════════════════════════════════════════════════════
+function openSessionModal() {
+  document.getElementById('sess-name').value='';
+  document.getElementById('sess-code').value='G'+Math.floor(Math.random()*900+100);
+  const ps=document.getElementById('sess-passage');
+  ps.innerHTML=appData.passages.map(p=>`<option value="${p.id}">${p.title} (${p.grade})</option>`).join('');
+  const wl=document.getElementById('sess-wordlist');
+  wl.innerHTML=appData.wordLists.map(w=>`<option value="${w.id}">${w.name}</option>`).join('');
+  openModal('modal-session');
+}
+function saveSession(){
+  const name=document.getElementById('sess-name').value.trim();
+  if(!name){showToast('Please enter a session name.','error');return;}
+  appData.sessions.push({id:Date.now(),name,type:document.getElementById('sess-type').value,grade:document.getElementById('sess-grade').value,code:document.getElementById('sess-code').value.toUpperCase(),passageId:parseInt(document.getElementById('sess-passage').value),wordListId:parseInt(document.getElementById('sess-wordlist').value),status:'active'});
+  saveData(appData);renderSessions();closeModal('modal-session');showToast('Session created!','success');
+}
+function toggleSession(id){const s=appData.sessions.find(x=>x.id===id);if(s)s.status=s.status==='active'?'closed':'active';saveData(appData);renderSessions();}
+function deleteSession(id){if(!confirm('Delete this session?'))return;appData.sessions=appData.sessions.filter(x=>x.id!==id);saveData(appData);renderSessions();}
+
+// ════════════════════════════════════════════════════════
+// STUDENT CRUD
+// ════════════════════════════════════════════════════════
+function openStudentModal(){document.getElementById('stu-first').value='';document.getElementById('stu-last').value='';document.getElementById('stu-lrn').value='';openModal('modal-student');}
+function saveStudent(){
+  const first=document.getElementById('stu-first').value.trim();
+  const last=document.getElementById('stu-last').value.trim();
+  if(!first||!last){showToast('Please enter first and last name.','error');return;}
+  appData.students.push({id:Date.now(),firstName:first,lastName:last,grade:document.getElementById('stu-grade').value,lrn:document.getElementById('stu-lrn').value.trim()});
+  saveData(appData);renderStudents();closeModal('modal-student');showToast('Student added!','success');updateDashboardStats();
+}
+function deleteStudent(id){if(!confirm('Delete this student record?'))return;appData.students=appData.students.filter(x=>x.id!==id);saveData(appData);renderStudents();updateDashboardStats();}
+
+function viewStudentResults(id) {
+  const stu = appData.students.find(s=>s.id===id);
+  const res = appData.results.filter(r=>r.studentId===id);
+  navigateTo('results');
+}
+
+// ════════════════════════════════════════════════════════
+// RESULT VIEWING
+// ════════════════════════════════════════════════════════
+function viewResult(id) {
+  const r = appData.results.find(x=>x.id===id);
+  if(!r) return;
+  const wrPct = Math.round(r.wrScore/r.wrTotal*100);
+  const compPct = Math.round(r.compScore/r.compTotal*100);
+  const levelColor = r.level==='Independent'?'var(--green)':r.level==='Instructional'?'var(--gold)':'var(--red)';
+  document.getElementById('modal-result-body').innerHTML = `
+    <div class="stat-grid" style="margin-bottom:1.25rem;">
+      <div class="stat-card navy"><div class="stat-label">WR Accuracy</div><div class="stat-value">${wrPct}%</div><div class="stat-sub">${r.wrScore}/${r.wrTotal} words</div></div>
+      <div class="stat-card teal"><div class="stat-label">Comprehension</div><div class="stat-value">${compPct}%</div><div class="stat-sub">${r.compScore}/${r.compTotal} correct</div></div>
+      <div class="stat-card gold"><div class="stat-label">Fluency (WPM)</div><div class="stat-value">${r.fluency}</div><div class="stat-sub">words per minute</div></div>
+    </div>
+    <div style="padding:1rem;border-radius:var(--radius);border:2px solid ${levelColor};background:${levelColor}18;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;">
+      <div style="font-size:0.8rem;color:var(--text2);">Reading Level:</div>
+      <div style="font-size:1.25rem;font-weight:700;color:${levelColor};">${r.level}</div>
+    </div>
+    <div class="card-header" style="margin-bottom:0.75rem;"><span class="card-title">Error Analysis</span></div>
+    <div class="bar-chart">
+      ${Object.entries(r.errors||{}).map(([k,v])=>`<div class="bar-row"><div class="bar-label" style="text-transform:capitalize;">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.min(v*20,100)}%;background:var(--red)"></div></div><div class="bar-val">${v}</div></div>`).join('')}
+    </div>
+    <div class="divider"></div>
+    <div style="font-size:0.8rem;color:var(--text3);">Student: <strong>${r.studentName}</strong> | Grade: ${r.grade} | Date: ${r.date} | Type: ${r.testType}</div>
+  `;
+  openModal('modal-view-result');
+}
+
+// ════════════════════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════════════════════
+function saveSettings() {
+  appData.settings.independentThreshold = parseInt(document.getElementById('setting-independent').value);
+  appData.settings.instructionalThreshold = parseInt(document.getElementById('setting-instructional').value);
+  appData.settings.compPassingScore = parseInt(document.getElementById('setting-comp').value);
+  appData.settings.lockAnswers = document.getElementById('lock-answers').checked;
+  appData.settings.lockScoring = document.getElementById('lock-scoring').checked;
+  appData.settings.showFeedback = document.getElementById('show-feedback').checked;
+  appData.settings.enableAudio = document.getElementById('enable-audio').checked;
+  saveData(appData); showToast('Settings saved!','success');
+}
+
+function openAddTeacherModal() {
+  const name=prompt('Teacher full name:'); if(!name) return;
+  const username=prompt('Username:'); if(!username) return;
+  const password=prompt('Password:'); if(!password) return;
+  appData.users.push({id:Date.now(),name,username,password,role:'teacher'});
+  saveData(appData);renderSettings();showToast('Teacher account created!','success');
+}
+
+function deleteUser(id) {
+  if (id===1){showToast('Cannot delete main admin.','error');return;}
+  if(!confirm('Remove this user?'))return;
+  appData.users=appData.users.filter(u=>u.id!==id);
+  saveData(appData);renderSettings();showToast('User removed.');
+}
+
+function openQuestionModal() { showToast('Question editor coming — use the Edit button on existing questions.'); }
+function editQuestion(id) {
+  const q = appData.questions.find(x=>x.id===id);
+  if(!q) return;
+  const newText = prompt('Edit question:', q.text);
+  if(newText) { q.text=newText; saveData(appData); renderQuestionsTable(); showToast('Question updated!','success'); }
+}
+function deleteQuestion(id) {
+  if(!confirm('Delete this question?'))return;
+  appData.questions=appData.questions.filter(x=>x.id!==id);
+  saveData(appData);renderQuestionsTable();showToast('Question deleted.');
+}
+
+// ════════════════════════════════════════════════════════
+// EXPORT
+// ════════════════════════════════════════════════════════
+function showExportModal() { openModal('modal-export'); }
+
+function doExport() {
+  const type = document.getElementById('export-type').value;
+  const format = document.querySelector('input[name="export-format"]:checked').value;
+  let content='', filename='philiri-export', mime='text/plain';
+
+  if (format==='csv') {
+    const rows=[['Student','Grade','Test Type','Date','WR Score (%)','Comprehension (%)','Fluency (WPM)','Reading Level'],...appData.results.map(r=>[r.studentName,r.grade,r.testType,r.date,Math.round(r.wrScore/r.wrTotal*100),Math.round(r.compScore/r.compTotal*100),r.fluency,r.level])];
+    content=rows.map(r=>r.join(',')).join('\n'); filename+='.csv'; mime='text/csv';
+  } else if (format==='json') {
+    content=JSON.stringify({exportType:type,exportDate:new Date().toISOString(),data:{students:appData.students,results:appData.results,passages:appData.passages.map(p=>({...p,text:undefined}))}},null,2);
+    filename+='.json'; mime='application/json';
+  } else {
+    content=`DIGITAL PHIL-IRI ASSESSMENT REPORT\n${'='.repeat(50)}\nExport Type: ${type}\nDate: ${new Date().toLocaleDateString()}\n\nRESULTS SUMMARY\n${'-'.repeat(40)}\n`+appData.results.map(r=>`${r.studentName} | ${r.grade} | ${r.testType} | WR: ${Math.round(r.wrScore/r.wrTotal*100)}% | Comp: ${Math.round(r.compScore/r.compTotal*100)}% | Level: ${r.level}`).join('\n');
+    filename+='.txt';
+  }
+  const blob=new Blob([content],{type:mime});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=filename; a.click();
+  URL.revokeObjectURL(url);
+  closeModal('modal-export'); showToast('Export downloaded!','success');
+}
+
+// ════════════════════════════════════════════════════════
+// STUDENT ASSESSMENT
+// ════════════════════════════════════════════════════════
+let studentState = { phase:1, wrResults:{}, errors:{mispronunciation:0,omission:0,substitution:0,insertion:0}, compAnswers:{}, fluencyWPM:0, recording:false, recTimer:null, recSeconds:0, fluencyTimer:null, fluencyRunning:false, fluencyLeft:60 };
+
+function initStudentAssessment(session) {
+  studentState = { phase:1, wrResults:{}, errors:{mispronunciation:0,omission:0,substitution:0,insertion:0}, compAnswers:{}, fluencyWPM:0, recording:false, recTimer:null, recSeconds:0, fluencyTimer:null, fluencyRunning:false, fluencyLeft:60 };
+  
+  const wl = session ? appData.wordLists.find(w=>w.id===session.wordListId) : appData.wordLists[0];
+  const passage = session ? appData.passages.find(p=>p.id===session.passageId) : appData.passages[0];
+  const questions = passage ? appData.questions.filter(q=>q.passageId===passage.id) : [];
+
+  // Word recognition
+  const wordListEl = document.getElementById('word-recognition-list');
+  const words = wl ? wl.words : ['house','school','river','garden','teacher','mother','happy','water','farmer','child','flower','morning','village','friend','reading','family','market','basket','candle','bridge'];
+  wordListEl.innerHTML = words.map((w,i) => `<span class="word-chip" data-word="${w}" data-idx="${i}" onclick="cycleWordState(this)">${w}</span>`).join('');
+  document.getElementById('wr-score-display').textContent = `0 / ${words.length}`;
+
+  // Oral reading passage
+  const passageText = passage ? passage.text : 'No passage assigned to this session. Please ask your teacher to assign a passage.';
+  document.getElementById('oral-reading-passage').textContent = passageText;
+  document.getElementById('fluency-passage').textContent = passageText;
+
+  // Comprehension questions
+  const compEl = document.getElementById('comprehension-questions');
+  if (questions.length) {
+    compEl.innerHTML = questions.map((q,qi) => `
+      <div class="q-block">
+        <div class="q-text">${qi+1}. ${q.text}</div>
+        <div class="q-options">
+          ${q.options.map((opt,oi)=>`<div class="q-option" data-qid="${q.id}" data-opt="${oi}" onclick="selectAnswer(this,${q.id},${oi})">${String.fromCharCode(65+oi)}. ${opt}</div>`).join('')}
+        </div>
+      </div>`).join('');
+  } else {
+    compEl.innerHTML = '<p class="text-muted">No comprehension questions assigned for this passage.</p>';
+  }
+
+  goToPhase(1);
+  updateStudentProgress();
+}
+
+function cycleWordState(el) {
+  const states = ['','correct','wrong','skipped'];
+  const current = states.findIndex(s => s && el.classList.contains(s));
+  const next = (current+1) % states.length;
+  states.forEach(s => s && el.classList.remove(s));
+  if (states[next]) el.classList.add(states[next]);
+  studentState.wrResults[el.dataset.word] = states[next];
+  updateWRScore();
+}
+
+function updateWRScore() {
+  const chips = document.querySelectorAll('#word-recognition-list .word-chip');
+  const total = chips.length;
+  const correct = document.querySelectorAll('#word-recognition-list .word-chip.correct').length;
+  document.getElementById('wr-score-display').textContent = `${correct} / ${total}`;
+}
+
+function selectAnswer(el, qid, opt) {
+  const qBlock = el.closest('.q-block');
+  qBlock.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  studentState.compAnswers[qid] = opt;
+  const total = document.querySelectorAll('.q-option[data-qid]').length / 4; // rough
+  const answered = Object.keys(studentState.compAnswers).length;
+  document.getElementById('comp-score-badge').textContent = `${answered} answered`;
+}
+
+function logError(type) {
+  studentState.errors[type]++;
+  document.getElementById('error-count').textContent = Object.values(studentState.errors).reduce((a,b)=>a+b,0);
+}
+
+let recInterval = null;
+function toggleRecording() {
+  const btn = document.getElementById('record-btn');
+  const status = document.getElementById('record-status');
+  if (!studentState.recording) {
+    studentState.recording = true;
+    btn.classList.add('recording');
+    status.textContent = 'Recording... press to stop';
+    studentState.recSeconds = 0;
+    recInterval = setInterval(() => {
+      studentState.recSeconds++;
+      const m=Math.floor(studentState.recSeconds/60).toString().padStart(2,'0');
+      const s=(studentState.recSeconds%60).toString().padStart(2,'0');
+      document.getElementById('record-timer').textContent = `${m}:${s}`;
+    }, 1000);
+  } else {
+    studentState.recording = false;
+    btn.classList.remove('recording');
+    clearInterval(recInterval);
+    status.textContent = `Recorded: ${document.getElementById('record-timer').textContent}`;
+    showToast('Recording saved (' + document.getElementById('record-timer').textContent + ')');
+  }
+}
+
+let fluencyInterval = null;
+function startFluencyTimer() {
+  if (studentState.fluencyRunning) return;
+  studentState.fluencyRunning = true;
+  studentState.fluencyLeft = 60;
+  document.getElementById('fluency-start-btn').disabled = true;
+  fluencyInterval = setInterval(() => {
+    studentState.fluencyLeft--;
+    document.getElementById('fluency-timer').textContent = `0:${studentState.fluencyLeft.toString().padStart(2,'0')}`;
+    if (studentState.fluencyLeft<=0) {
+      clearInterval(fluencyInterval);
+      document.getElementById('fluency-timer').textContent = '0:00';
+      showToast('Time\'s up! Enter words read correctly below.','success');
+    }
+  }, 1000);
+}
+
+function goToPhase(n) {
+  for(let i=1;i<=4;i++) {
+    const el=document.getElementById(`student-phase-${i}`);
+    if(el) el.style.display = i===n?'block':'none';
+  }
+  studentState.phase = n;
+  updatePhaseIndicator(n);
+  updateStudentProgress();
+}
+
+function updatePhaseIndicator(n) {
+  const phases = ['word','oral','comp','fluency'];
+  phases.forEach((p,i) => {
+    const el = document.getElementById(`phase-${p}`);
+    el.className = 'phase-dot' + (i+1<n?' done':i+1===n?' active':'');
+  });
+}
+
+function updateStudentProgress() {
+  document.getElementById('student-progress').style.width = `${((studentState.phase-1)/4)*100}%`;
+}
+
+function completeWordRecognition() {
+  if(studentState.recording){toggleRecording();}
+  goToPhase(2);
+}
+function completeOralReading() {
+  if(studentState.recording){toggleRecording();}
+  goToPhase(3);
+}
+function completeComprehension() { goToPhase(4); }
+
+function submitAssessment() {
+  const chips = document.querySelectorAll('#word-recognition-list .word-chip');
+  const total = chips.length;
+  const correct = document.querySelectorAll('#word-recognition-list .word-chip.correct').length;
+  const wrPct = total ? Math.round(correct/total*100) : 0;
+
+  const questions = appData.questions;
+  let compCorrect=0, compTotal=0;
+  if (currentStudentSession?.session) {
+    const passage = appData.passages.find(p=>p.id===currentStudentSession.session.passageId);
+    const qs = passage ? appData.questions.filter(q=>q.passageId===passage.id) : [];
+    compTotal = qs.length;
+    qs.forEach(q => { if(studentState.compAnswers[q.id]===q.answer) compCorrect++; });
+  }
+  const compPct = compTotal ? Math.round(compCorrect/compTotal*100) : 0;
+  const fluency = parseInt(document.getElementById('fluency-words').value)||0;
+
+  const settings = appData.settings;
+  let level;
+  if (wrPct>=settings.independentThreshold && compPct>=75) level='Independent';
+  else if (wrPct>=settings.instructionalThreshold) level='Instructional';
+  else level='Frustration';
+
+  // Save result
+  const result = {
+    id: Date.now(),
+    studentId: null,
+    studentName: currentStudentSession?.studentName || 'Anonymous',
+    grade: currentStudentSession?.grade || 'Grade 7',
+    testType: currentStudentSession?.session?.type || 'Pre-test',
+    date: new Date().toISOString().slice(0,10),
+    wrScore: correct, wrTotal: total,
+    compScore: compCorrect, compTotal: compTotal||6,
+    fluency, level,
+    errors: {...studentState.errors}
+  };
+  appData.results.push(result);
+  saveData(appData);
+
+  // Show results
+  for(let i=1;i<=4;i++){const el=document.getElementById(`student-phase-${i}`);if(el)el.style.display='none';}
+  document.getElementById('student-results').style.display='block';
+  document.getElementById('result-wr').textContent = wrPct+'%';
+  document.getElementById('result-comp').textContent = compPct+'%';
+  document.getElementById('result-fluency').textContent = fluency||'—';
+  const levelColor = level==='Independent'?'var(--green)':level==='Instructional'?'var(--gold)':'var(--red)';
+  document.getElementById('reading-level-display').style.cssText = `background:${levelColor}18;border:2px solid ${levelColor};border-radius:var(--radius);padding:0.75rem 2rem;`;
+  document.getElementById('reading-level-display').innerHTML = `<div style="font-size:0.8rem;color:var(--text2);margin-bottom:0.25rem;">Your Reading Level</div><div style="font-size:1.5rem;font-weight:700;color:${levelColor};">${level}</div>`;
+  document.getElementById('student-progress').style.width='100%';
+}
+
+// ════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ════════════════════════════════════════════════════════
+function switchTab(btn, group, panelId) {
+  btn.closest('.tab-list').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll(`#page-${group} .tab-panel`).forEach(p=>p.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════════
+function showAlert(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 4000);
+}
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type?' '+type:'');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ════════════════════════════════════════════════════════
+// PWA SERVICE WORKER
+// ════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+// Init
+document.addEventListener('keydown', e => {
+  if(e.key==='Enter' && document.getElementById('screen-login').classList.contains('active')) {
+    if(document.getElementById('teacher-login-form').style.display!=='none') loginTeacher();
+  }
+});
+</script>
+</body>
+</html>

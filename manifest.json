@@ -1,0 +1,16 @@
+{
+  "name": "Digital Phil-IRI: School-Based Reading Assessment",
+  "short_name": "Phil-IRI",
+  "description": "Offline-capable Philippine Informal Reading Inventory assessment system for secondary schools",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a3352",
+  "theme_color": "#0f4c75",
+  "orientation": "any",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "categories": ["education"],
+  "lang": "en-PH"
+}
